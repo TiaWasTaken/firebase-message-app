@@ -1,6 +1,15 @@
-import "./chat.css"
+import React, { useState } from 'react';
+import './chat.css';
+import EmojiPicker from 'emoji-picker-react';
 
 const Chat = () => {
+const [open, setOpen] = useState(false);
+const [text, setText] = useState('');
+
+const handleEmoji = e => {
+ setText(prev => prev + e.emoji); 
+}
+
   return (
     <div className ='chat'>
       <div className="top">
@@ -17,16 +26,66 @@ const Chat = () => {
           <img src="./info.png" alt="" />
         </div>
       </div>
-      <div className="center"></div>
+      <div className="center">
+        <div className="message own">
+          <div className="texts">
+            <img src="./avatar.png" alt="" />
+            <p>Lorem ipsum dolor sit amet</p>
+            <span>1 min fa</span>
+          </div>
+        </div>
+
+        <div className="message">
+          <img src="./avatar.png" alt="" />
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet dhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh dhvibviebre vevrebvrebvreuvbevurebvribvrie feobvioerbvireobviroebvoire joebvorebiovreb</p>
+            <span>1 min fa</span>
+          </div>
+        </div>
+
+        <div className="message own">
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet</p>
+            <span>1 min fa</span>
+          </div>
+        </div>
+
+        <div className="message">
+          <img src="./avatar.png" alt="" />
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet</p>
+            <span>1 min fa</span>
+          </div>
+        </div>
+
+        <div className="message own">
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet ccdjbubwb vrjev rejbfrebfrebfrubreu freufbreufbr efurebreiforeirenbrieovb ebvevbeivk </p>
+            <span>1 min fa</span>
+          </div>
+        </div>
+
+        <div className="message">
+          <img src="./avatar.png" alt="" />
+          <div className="texts">
+            <p>Lorem ipsum dolor sit amet</p>
+            <span>1 min fa</span>
+          </div>
+        </div>
+
+      </div>
       <div className="bottom">
         <div className="icons">
           <img src="./img.png" alt="" />
           <img src="./camera.png" alt="" />
           <img src="./mic.png" alt="" />
         </div>
-        <input type="text" placeholder="Scrivi un messaggio..." />
+        <input type="text" placeholder="Scrivi un messaggio..." value={text} onChange={e=>setText(e.target.value)}/>
         <div className="emoji">
-          <img src="./emoji.png" alt="" />
+          <img src="./emoji.png" alt="" onClick = {()=> setOpen(prev => !prev)}/>
+          <div className="picker">
+           <EmojiPicker open={open} onEmojiClick={handleEmoji}/>
+          </div>
         </div>
         <button className="sendButton">Invia</button>
       </div>
