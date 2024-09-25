@@ -1,6 +1,8 @@
 import "./login.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../lib/firebase";
 
 const Login = () => {
 
@@ -25,6 +27,29 @@ const Login = () => {
     toast.success("Logged in successfully");
   }
 
+const handleRegister = async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  
+  const { username, email, password } = Object.fromEntries(formData);
+  console.log(email, password);
+
+  try {
+    const response = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User created:", response.user);
+    document.body.style.overflow = "hidden"; 
+    document.body.style.scrollbarWidth = "none";
+    toast.success("User registered successfully");
+
+  } catch (err) {
+    document.body.style.overflow = "hidden"; 
+    document.body.style.scrollbarWidth = "none";
+    console.error("Error occurred during registration:", err);
+
+    toast.error(err.message);
+  }
+};
+
   return (
     <div className= "login">
       <div className="item">
@@ -38,7 +63,7 @@ const Login = () => {
       <div className="separator"></div>
       <div className="item">
         <h2>Don't have an account?</h2>
-        <form>
+        <form onSubmit={handleRegister}>
           <label htmlFor="file">
             <img src={avatar.url || "./avatar.png"} alt="" />
             Upload a Profile Image</label>
