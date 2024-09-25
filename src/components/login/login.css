@@ -64,13 +64,18 @@
           background-color: #1f8ef1;
           opacity: 0.8;
         }
+
+        &:disabled {
+          cursor: not-allowed;
+          background-color: #1f8ef19c;
+        }
+        }
       }
     }
   }
 
-  .separator {
+.separator {
     height: 80%;
     width: 2px;
     background-color: #dddddd35;
   }
-}
