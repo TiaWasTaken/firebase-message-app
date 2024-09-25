@@ -1,7 +1,7 @@
 import "./login.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../lib/upload";
@@ -24,11 +24,27 @@ const Login = () => {
     }
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    document.body.style.overflow = "hidden"; 
-    document.body.style.scrollbarWidth = "none";
-    toast.success("Logged in successfully");
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+    const { email, password } = Object.fromEntries(formData);
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password );
+      console.log("User logged in successfully");
+      document.body.style.overflow = "hidden";
+      document.body.style.scrollbarWidth = "none";
+      toast.success("User logged in successfully");
+    } catch (err) {
+      console.error("Error occurred during login:", err);
+      document.body.style.overflow = "hidden"; 
+      document.body.style.scrollbarWidth = "none";
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
 const handleRegister = async (e) => {
