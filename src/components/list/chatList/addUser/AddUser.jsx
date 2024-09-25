@@ -3,7 +3,7 @@ import "./addUser.css"
 const AddUser = () => {
   return (
     <div className="addUser">
-      <form onSubmit={handleSearch}>
+      <form>
         <input type="text" placeholder="username" name="username"/>
         <button>Search</button>
       </form>
