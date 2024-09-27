@@ -11,7 +11,6 @@ import { useUserStore } from "./lib/userStore";
 
 const App = () => {
 
-
   const {currentUser, isLoading, fetchUserInfo} = useUserStore();
 
   useEffect(() => {
