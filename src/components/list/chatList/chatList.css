@@ -63,7 +63,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center; /* Centering content vertically */
-      gap: 0px; /* Reduced gap for better spacing */
+      gap: 10px; /* Reduced gap for better spacing */
 
       span {
         font-weight: 500;
