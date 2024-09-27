@@ -1,10 +1,16 @@
 import "./addUser.css"
 import { db } from "../../../../lib/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
+import { serverTimestamp, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { arrayUnion } from "firebase/firestore";
+import { useUserStore } from "../../../../lib/userStore";
+
 
 const AddUser = () => {
 
+  const { currentUser } = useUserStore();
   const [user, setUser] = useState(null);
 
   const handleSearch = async (e) => {
@@ -36,6 +42,54 @@ const AddUser = () => {
     }
   }
 
+
+  const handleAdd = async () => {
+    // add user to the database
+    
+
+    const chatRef = collection(db, "chats");
+    const userChatsRef = collection(db, "userchats");
+
+
+
+    try {
+
+      const newChatRef = doc(chatRef);
+
+      await setDoc(newChatRef, {
+        createdAt: serverTimestamp(),
+        messages: [],
+      })
+
+      // add chat to the user we are adding
+      await updateDoc(doc(userChatsRef, user.id), {
+        chats:arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: currentUser.id,
+          updatedAt: Date.now(),
+        })
+      })
+
+      // add chat to the current user (logged in user)
+       await updateDoc(doc(userChatsRef, currentUser.id), {
+        chats:arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: user.id,
+          updatedAt: Date.now(),
+        })
+      })
+     
+
+    } catch (error) {
+      console.log(error);
+      document.body.style.overflow = "hidden";
+      document.body.style.scrollbarWidth = "none";
+      toast.error("Something went wrong");
+    }
+  } 
+
   return (
     <div className="addUser">
       <form onSubmit={handleSearch}>
@@ -47,7 +101,7 @@ const AddUser = () => {
           <img src={user.avatar || "./avatar.png"} alt="" />
           <span>{ user.username }</span>
         </div>
-        <button>Add User</button>
+        <button onClick={handleAdd}>Add User</button>
       </div>}
     </div>
   )

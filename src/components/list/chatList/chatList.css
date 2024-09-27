@@ -46,7 +46,7 @@
 
   .item {
     display: flex;
-    align-items: center;
+    align-items: center; /* Ensures vertical alignment */
     gap: 20px;
     padding: 20px;
     cursor: pointer;
@@ -62,7 +62,8 @@
     .texts {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      justify-content: center; /* Centering content vertically */
+      gap: 0px; /* Reduced gap for better spacing */
 
       span {
         font-weight: 500;
@@ -75,3 +76,4 @@
     }
   }
 }
+
